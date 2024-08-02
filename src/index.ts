@@ -27,7 +27,8 @@ const port = process.env.PORT;
 app.get("/authorize-handler", async (req: Request, res: Response) => {
   const { code } = req.query;
   await ghl.authorizationHandler(code as string);
-  res.redirect("http://localhost:3000");
+  const redirect_URI = process.env.DEPLOYED_URI || "http://localhost:3000"
+  res.redirect(redirect_URI);
 });
 
 /*`app.get("/example-api-call", async (req: Request, res: Response) => { ... })` shows you how you can use ghl object to make get requests
