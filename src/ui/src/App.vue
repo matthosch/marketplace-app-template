@@ -1,6 +1,11 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld/>
+  <div v-if="dataFetched">
+    {{ fetchedData }}
+  </div>
+  <div v-else>
+    <HelloWorld />
+  </div>
 </template>
 
 <script>
@@ -11,10 +16,21 @@ export default {
   components: {
     HelloWorld
   },
-  async mounted(){
-  
-    const data = await window.ghl.getUserData();
-    console.log("user-details", data)
+  data() {
+    return {
+      dataFetched: false,
+      fetchedData: null
+    }
+  },
+  async mounted() {
+    try {
+      const data = await window.ghl.getUserData();
+      this.fetchedData = data
+      this.dataFetched = true
+    } catch (error) {
+      console.error('Error fetching data: ', error)
+    }
+    
   }
 }
 </script>
