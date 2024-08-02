@@ -1,10 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <div v-if="dataFetched">
-    {{ fetchedData }}
+  <div v-if="loading">
+    <div v-if="dataFetched">
+      {{ fetchedData }}
+    </div>
+    <div v-else>
+      <HelloWorld />
+    </div>
   </div>
   <div v-else>
-    <HelloWorld />
+    <h2>Loading...</h2>
   </div>
 </template>
 
@@ -19,6 +24,7 @@ export default {
   data() {
     return {
       dataFetched: false,
+      loading: true,
       fetchedData: null
     }
   },
@@ -30,7 +36,7 @@ export default {
     } catch (error) {
       console.error('Error fetching data: ', error)
     }
-    
+    this.loading = false
   }
 }
 </script>
