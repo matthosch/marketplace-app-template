@@ -1,6 +1,7 @@
 import qs from "qs";
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 import CryptoJS from "crypto-js";
+import CryptoHelper from "./utility";
 
 import { Model, TokenType } from "./model";
 
@@ -8,38 +9,39 @@ import { Model, TokenType } from "./model";
 tokens and refresh tokens for a specific resource. */
 export class GHL {
   public model: Model;
-
+  
   constructor() {
     this.model = new Model();
   }
-
-/**
- * The `authorizationHandler` function handles the authorization process by generating an access token
- * and refresh token pair.
- * @param {string} code - The code parameter is a string that represents the authorization code
- * obtained from the authorization server. It is used to exchange for an access token and refresh token
- * pair.
- */
-  async authorizationHandler(code: string) {
-    if (!code) {
-      console.warn(
-        "Please provide code when making call to authorization Handler"
+  
+  /**
+   * The `authorizationHandler` function handles the authorization process by generating an access token
+   * and refresh token pair.
+   * @param {string} code - The code parameter is a string that represents the authorization code
+   * obtained from the authorization server. It is used to exchange for an access token and refresh token
+   * pair.
+  */
+ async authorizationHandler(code: string) {
+   if (!code) {
+     console.warn(
+       "Please provide code when making call to authorization Handler"
       );
     }
     await this.generateAccessTokenRefreshTokenPair(code);
   }
-
+  
   decryptSSOData(key: string){
-    const data = CryptoJS.AES.decrypt(key, process.env.GHL_APP_SSO_KEY as string).toString(CryptoJS.enc.Utf8)
+    const cryptoHelper = new CryptoHelper
+    const data = cryptoHelper.decryptAES(key, process.env.GHL_APP_SSO_KEY as string).toString();
     return JSON.parse(data)
   }
-
-/**
- * The function creates an instance of Axios with a base URL and interceptors for handling
- * authorization and refreshing access tokens.
- * @param {string} resourceId - The `resourceId` parameter is a string that represents the locationId or companyId you want
- * to make api call for.
- * @returns an instance of the Axios library with some custom request and response interceptors.
+  
+  /**
+   * The function creates an instance of Axios with a base URL and interceptors for handling
+   * authorization and refreshing access tokens.
+   * @param {string} resourceId - The `resourceId` parameter is a string that represents the locationId or companyId you want
+   * to make api call for.
+   * @returns an instance of the Axios library with some custom request and response interceptors.
  */
   requests(resourceId: string) {
     const baseUrl = process.env.GHL_API_DOMAIN;
