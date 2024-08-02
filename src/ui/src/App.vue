@@ -1,15 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <div v-if="loading">
+    <h2>Loading...</h2>
+  </div>
+  <div v-else>
     <div v-if="dataFetched">
       {{ fetchedData }}
     </div>
     <div v-else>
       <HelloWorld />
     </div>
-  </div>
-  <div v-else>
-    <h2>Loading...</h2>
   </div>
 </template>
 
