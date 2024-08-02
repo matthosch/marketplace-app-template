@@ -27,7 +27,7 @@ const port = process.env.PORT;
 app.get("/authorize-handler", async (req: Request, res: Response) => {
   const { code } = req.query;
   await ghl.authorizationHandler(code as string);
-  res.redirect("https://app.gohighlevel.com/");
+  res.redirect("http://localhost:3000");
 });
 
 /*`app.get("/example-api-call", async (req: Request, res: Response) => { ... })` shows you how you can use ghl object to make get requests

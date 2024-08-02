@@ -1,6 +1,6 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <HelloWorld/>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
     HelloWorld
   },
   async mounted(){
-    
+  
     const data = await window.ghl.getUserData();
     console.log("user-details", data)
   }
