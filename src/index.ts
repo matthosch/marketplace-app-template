@@ -18,17 +18,16 @@ app.use(express.static(path));
 
 const allowedOrigins = [
   "https://app.gohighlevel.com",
-  process.env.DEPLOYED_URI,
-  "http://localhost:3000"
+  process.env.DEPLOYED_URI
 ]
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (allowedOrigins.indexOf(origin) === -1) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
-    } else {
-      return callback(null, true);
     }
   }
 }))
@@ -60,6 +59,7 @@ app.get("/example-api-call", async (req: Request, res: Response) => {
             Version: "2021-07-28",
           },
         });
+        console.log(request.data)
       return res.send(request.data);
     } catch (error) {
       console.log(error);
