@@ -16,8 +16,21 @@ app.use(json({ type: 'application/json' }))
 `express.static` middleware is used to serve static files such as HTML, CSS, JavaScript, and images. */
 app.use(express.static(path));
 
+const allowedOrigins = [
+  "https://app.gohighlevel.com",
+  process.env.DEPLOYED_URI,
+  "http://localhost:3000"
+]
+
 app.use(cors({
-  origin: process.env.DEPLOYED_URI || "http://localhost:3000"
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    } else {
+      return callback(null, true);
+    }
+  }
 }))
 
 /* The line `const ghl = new GHL();` is creating a new instance of the `GHL` class. It is assigning
@@ -101,16 +114,16 @@ app.get("/example-api-call-location", async (req: Request, res: Response) => {
     console.log(req.body)
 })` sets up a route for handling HTTP POST requests to the "/example-webhook-handler" endpoint. The below POST
 api can be used to subscribe to various webhook events configured for the app. */
-app.post("/example-webhook-handler",async (req: Request, res: Response) => {
-    console.log(req.body)
+app.post("/example-webhook-handler", async (req: Request, res: Response) => {
+  console.log(req.body)
 })
 
 
 /* The `app.post("/decrypt-sso",async (req: Request, res: Response) => { ... })` route is used to
 decrypt session details using ssoKey. */
-app.post("/decrypt-sso",async (req: Request, res: Response) => {
-  const {key} = req.body || {}
-  if(!key){
+app.post("/decrypt-sso", async (req: Request, res: Response) => {
+  const { key } = req.body || {}
+  if (!key) {
     return res.status(400).send("Please send valid key")
   }
   try {
@@ -118,7 +131,7 @@ app.post("/decrypt-sso",async (req: Request, res: Response) => {
     res.send(data)
   } catch (error) {
     res.status(400).send("Invalid Key")
-    console.log(error)  
+    console.log(error)
   }
 })
 
