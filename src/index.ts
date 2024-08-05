@@ -65,7 +65,7 @@ app.get("/example-api-call", async (req: Request, res: Response) => {
       console.log(error);
     }
   }
-  return res.send("Installation for this company does not exists");
+  return res.json({error: "Installation for this company does not exist"});
 });
 
 /*`app.get("/example-api-call-location", async (req: Request, res: Response) => { ... })` shows you how you can use ghl object to make get requests
