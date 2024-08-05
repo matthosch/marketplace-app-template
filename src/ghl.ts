@@ -1,6 +1,5 @@
 import qs from "qs";
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
-import CryptoJS from "crypto-js";
 import CryptoHelper from "./utility";
 
 import { Model, TokenType } from "./model";

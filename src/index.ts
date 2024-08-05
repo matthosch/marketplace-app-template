@@ -3,8 +3,8 @@ for handling HTTP requests. */
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import { GHL } from "./ghl";
-import * as CryptoJS from 'crypto-js'
 import { json } from "body-parser";
+import cors from "cors"
 
 const path = __dirname + "/ui/dist/";
 
@@ -15,6 +15,10 @@ app.use(json({ type: 'application/json' }))
 /*`app.use(express.static(path));` is setting up a middleware in the Express server. The
 `express.static` middleware is used to serve static files such as HTML, CSS, JavaScript, and images. */
 app.use(express.static(path));
+
+app.use(cors({
+  origin: process.env.DEPLOYED_URI || "http://localhost:3000"
+}))
 
 /* The line `const ghl = new GHL();` is creating a new instance of the `GHL` class. It is assigning
 this instance to the variable `ghl`. This allows you to use the methods and properties defined in

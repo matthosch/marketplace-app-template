@@ -14,7 +14,7 @@ export default {
   name: 'HelloWorld',
   data() {
     return {
-      oAuth_url: `https://marketplace.gohighlevel.com/oauth/chooselocation?response_type=code&client_id=${process.env.VUE_APP_GHL_APP_CLIENT_ID}&redirect_uri=${process.env.VUE_APP_DEPLOYED_URI}/authorize-handler&scope=users.readonly`
+      oAuth_url: `https://marketplace.gohighlevel.com/oauth/chooselocation?response_type=code&client_id=${process.env.VUE_APP_GHL_APP_CLIENT_ID}&redirect_uri=${process.env.VUE_APP_DEPLOYED_URI || "http://localhost:3000"}/authorize-handler&scope=users.readonly`
     }
   }
 }
